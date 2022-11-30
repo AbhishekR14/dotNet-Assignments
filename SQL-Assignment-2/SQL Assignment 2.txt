@@ -1,0 +1,52 @@
+					JOINS
+
+1. a. SELECT project_no FROM project JOIN works_on ON project.project_no = works_on.project_no;
+   b. SELECT project_no FROM project NATURAL JOIN works_on ON project.project_no = works_on.project_no;
+   c. SELECT project_no FROM project CROSS JOIN works_on ON project.project_no = works_on.project_no;
+   
+ 2. SELECT emp_no, Job FROM works_on where project_no in (SELECT proj_no FROM project WHERE project_name = 'Gemini');
+ 
+ 3. SELECT firstName, lastName FROM employee where employee_no IN (SELECT employee_no FROM works_on where department_no in (SELECT department_no FROM department WHERE (department_name = 'Research' or department_name= 'Accounting')));
+
+ 4. SELECT enterdates FROM workson INNER JOIN Employee ON workson.employee_no = employee.employee_no  WHERE job = 'clerk' and department_name = 'd1';
+ 
+ 5. SELECT COUNT() enterdates FROM workson INNER JOIN Employee ON workson.employee_no = employee.employee_no  WHERE job = 'clerk' and department_name = 'd1';
+
+ 6. SELECT firstName,lastname FROM employee where employee_no in (SELECT employee_no from works_on WHERE job = 'manager' and project_no ='p2');
+ 
+ 7. SELECT DISTINCT firstName,lastname FROM employee where employee_no in (SELECT employee_no from works_on WHERE COUNT(enter_date)>=2);
+ 
+ 8. SELECT emp_no FROM workson LEFT OUTER JOIN Employee ON workson.dep_name = employee.dp_name  WHERE workson.location = employee.location ;
+
+				
+				Modifying a Table's Contents
+
+1. INSERT INTO employee (1111, 'Julia', 'Long', NULL);
+
+2. CREATE TABLE emp_d2_d2 (emp_no integer not null); 
+
+   INSERT INTO emp_d1_d2 (emp_no) SELECT emp_no FROM Employee WHERE dept = d1 OR dept = d2;
+
+3. UPDATE Works_on SET Job = 'Clerk' WHERE project_no = 'P1';
+
+4. UPDATE Project SET Budget NULL;
+
+5. UPDATE Project SET Budget = Budget + (Budget * 0.1) WHERE project_no IN (SELECT project_no from Works_on where emp_no = 10102 and Job = 'manager');
+
+6. UPDATE Works_on SET enter_date = 1998-12-12 WHERE emp_no in (SELECT emp_no FROM Employee WHERE dept IN (SELECT dept from Departmnet where DeptType = 'sales' ));
+
+7. CREATE PROCEDURE Insert IntoDepartment @DepId varchar(2), @DepName char(28), @Location char (40) 
+
+   AS
+
+   INSERT INTO department (@DepId, @DepName, @Location);
+
+   GO;
+
+   CREATE PROCEDURE InsertIntoEmployee @EmpNo integer, @Emp_fname char (20), @Emp_Iname char(28), @DepId varchar(2)
+
+   AS
+
+   INSERT INTO Employee (@empNo, @emp_Fnamne, @emp_Iname, @DepId);
+
+   GO;

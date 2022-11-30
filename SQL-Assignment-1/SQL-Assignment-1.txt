@@ -1,0 +1,57 @@
+1. CREATE TABLE customer (Customerid char(5) not null, CompanyName varchar(40) not null,contactName char(30) null,Address varchar(60) null,City char(15) null,Phone char(24) null,Fax char(24) null);
+   CREATE TABLE orders (OrderId integer not null,customerId char(5) not null,Orderdate datetime null,Shippeddate datetime null,Freightmoney null,Shipname varchar(40) null,Shipaddres varchar(60) null,Quantity integer null);
+
+2. ALTER TABLE orders ADD shipregion integer null;
+
+3. ALTER TABLE orders MODIFY COLUMN shipregion char(8) null;
+
+4. ALTER TABLE orders DROP COLUMN shipregion;
+
+5. INSERT INTO orders ( 10, ‘ord01’, getdate(), getdate(), 100.0, 'Windstar', 'Ocean' ,1);
+
+6. set @current_date = cast(now() as date);
+	ALTER TABLE Orders MODIFY COLUMN orderdate date @current_date;
+
+7. ALTER TABLE Customers RENAME COLUMN city TO town ;
+
+
+8. CREATE TABLE Department(Dept varchar(2) not null,Dept char(20) not null,Location char(40));
+   
+   CREATE TABLE Employee(emp_no integer not null,emp_fname char(20), emp_lname char(20),dept varchar(2));
+
+   CREATE TABLE Project(project_no varchar(2) not null,project_name char(20), Budget integer);
+
+   CREATE TABLE Works_on(emp_no integer not null,project_no integer, Job char(20), enter_date date);
+
+
+
+Simple Queries
+
+
+1.  select * from works_on;
+
+2.  select emp_no from works_on where Job = 'Clerk';
+
+3.  select emp_no from works_on where project_no = 'p2' and emp_no < 1000;
+
+4.  select emp_no from works_on where enter_date > 1998-01-01 and enter_date< 1998-12-31;
+
+5.  select emp_no from works_on where project_no = 'p2' and (Job = 'manager' or Job = 'Analyst');
+ 
+6.  select enter_date from works_on where project_no = 'p2' and Job IS NULL; 
+
+7.  select emp_no, firstName from Employee where LEN(firstName)-LEN(REPLACE(firstName,'T','')) = 2; 
+
+8.  select emp_no, lastName from Employee where RIGHT(lastName,2)='es' and (like '_[o]%' or like '_[a]%'); 
+
+9.  select emp_no from Employee INNER JOIN (select dept from Department where loaction = 'Seattle') ON Department.dept = Employee.dept;
+
+10. select emp_no from Employee INNER JOIN (select emp_no from Works_on where enter_date = '1998-04-01') ON Employee.emp_no = Works_on.emp_no;
+
+11. select dept from Department group by location;
+
+12. select project_no from (select COUNT(emp_no) as count,projrct_no from works_on GROUP BY project_no) where count>2;
+
+13. select MAX(emp_no) from Employee as maxEmployeeNum;
+
+14. select emp_no from employee where dept='d3' UNION select emp_no from works_on where Job = 'Clerk' ;
